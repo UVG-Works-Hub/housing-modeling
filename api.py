@@ -1,13 +1,14 @@
 from flask import Flask, request, jsonify
 import pickle
 import pandas as pd
+import os
 
 app = Flask(__name__)
 
-# Load the saved model at startup
-model_filename = 'best_model.pkl'
+# Load the saved pipeline at startup
+model_filename = 'best_random_forest_model.pkl'
 with open(model_filename, 'rb') as file:
-    model = pickle.load(file)
+    model_pipeline = pickle.load(file)
 
 # Define the expected input features
 categorical_features = ['city', 'allows_animals', 'is_furnished']
@@ -41,8 +42,8 @@ def predict():
         # Create a DataFrame from the input data
         input_df = pd.DataFrame([input_data])
 
-        # Make prediction using the loaded model
-        prediction = model.predict(input_df)
+        # Make prediction using the loaded pipeline
+        prediction = model_pipeline.predict(input_df)
 
         # Return the prediction as JSON
         return jsonify({'total_monthly_cost_brl': prediction[0]})
@@ -50,6 +51,45 @@ def predict():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/feature_importance', methods=['GET'])
+def feature_importance():
+    try:
+        # Verificar si el archivo CSV existe
+        fi_filepath = 'feature_importances.csv'
+        if not os.path.exists(fi_filepath):
+            return jsonify({'error': 'Feature importances file not found.'}), 404
+
+        # Leer el CSV
+        fi_df = pd.read_csv(fi_filepath)
+
+        # Convertir a lista de diccionarios
+        fi_data = fi_df.to_dict(orient='records')
+
+        return jsonify({'feature_importances': fi_data})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/rental_trends', methods=['GET'])
+def rental_trends():
+    try:
+        # Verificar si el archivo CSV existe
+        trends_filepath = 'rental_trends.csv'
+        if not os.path.exists(trends_filepath):
+            return jsonify({'error': 'Rental trends file not found.'}), 404
+
+        # Leer el CSV
+        trends_df = pd.read_csv(trends_filepath)
+
+        # Convertir a lista de diccionarios
+        trends_data = trends_df.to_dict(orient='records')
+
+        return jsonify({'rental_trends': trends_data})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     # Run the Flask app
     app.run(debug=True)
+

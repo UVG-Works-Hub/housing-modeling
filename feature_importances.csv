@@ -1,0 +1,14 @@
+Feature,Importance
+num__num_rooms,0.2030204392176505
+num__property_tax_brl,0.19475249008892806
+num__area_sqm,0.1567600318076037
+num__fire_insurance_brl,0.14618816013235145
+num__num_parking_spaces,0.09264579545645019
+num__num_bathrooms,0.07279158452361859
+num__floor_level,0.0528554393818928
+cat__allows_animals_not acept,0.03229748002526441
+cat__city_São Paulo,0.03130154881497703
+cat__is_furnished_not furnished,0.011905174142519606
+cat__city_Rio de Janeiro,0.003612019871005495
+cat__city_Campinas,0.0010373289063320135
+cat__city_Porto Alegre,0.0008325076314060689
