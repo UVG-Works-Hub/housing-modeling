@@ -12,11 +12,8 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Read allowed origin from environment variable or use default
-ALLOWED_ORIGIN = os.getenv('ALLOWED_ORIGIN', 'http://localhost:5173')
-
-# Configure CORS
-CORS(app, resources={r"/*": {"origins": ALLOWED_ORIGIN}})
+# Configure CORS to allow any origin
+CORS(app)  # This will allow all domains by default
 
 compressed_filename = 'best_random_forest.joblib.gz'
 decompressed_filename = 'best_random_forest.joblib'
