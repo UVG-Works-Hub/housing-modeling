@@ -6,8 +6,8 @@ url = 'http://127.0.0.1:5000/predict'
 # Define the input data
 input_data = {
     "city": "São Paulo",
-    "allows_animals": "acept",
-    "is_furnished": "furnished",
+    "allows_animals": True,
+    "is_furnished": False,
     "area_sqm": 85,
     "num_rooms": 3,
     "num_bathrooms": 2,

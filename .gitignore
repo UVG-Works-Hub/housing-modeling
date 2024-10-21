@@ -3,3 +3,4 @@
 .vscode
 
 best_random_forest.joblib
+.env
