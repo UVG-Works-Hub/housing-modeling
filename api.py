@@ -1,14 +1,23 @@
 from flask import Flask, request, jsonify
-import pickle
+import joblib
+import gzip
+import shutil
 import pandas as pd
 import os
 
 app = Flask(__name__)
 
-# Load the saved pipeline at startup
-model_filename = 'best_random_forest_model.pkl'
-with open(model_filename, 'rb') as file:
-    model_pipeline = pickle.load(file)
+
+compressed_filename = 'best_random_forest.joblib.gz'
+decompressed_filename = 'best_random_forest.joblib'
+
+# Descomprimir el archivo
+with gzip.open(compressed_filename, 'rb') as f_in, open(decompressed_filename, 'wb') as f_out:
+    shutil.copyfileobj(f_in, f_out)
+
+# Cargar el modelo
+with open(decompressed_filename, 'rb') as file:
+    model_pipeline = joblib.load(file)
 
 # Define the expected input features
 categorical_features = ['city', 'allows_animals', 'is_furnished']
